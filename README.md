@@ -26,8 +26,6 @@ It uses **HTML Canvas** to resize an uploaded image and bundle all icons in a **
    Quickly preview generated icons before downloading.
 5. **Download as ZIP**  
    Download the resized icons in a ZIP file, ready to integrate into your projects.
-6. **Futuristic Styling**  
-   Animated neon glow, gradient backgrounds, and hover effects powered by **Chakra UI** and **Framer Motion**.
 
 ---
 
