@@ -1,4 +1,3 @@
-// "use client"  // If you're using Next.js 13+ with the app router
 
 import React, { useState } from "react";
 import {
@@ -21,9 +20,7 @@ import { motion } from "framer-motion";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
-//
-// 1. ICON SIZE DEFINITIONS
-//
+
 const ICON_SIZES = [
   // ------------------ iOS sizes ------------------
   { size: "20x20", idiom: "iphone", scale: "2x" },
@@ -62,9 +59,7 @@ const ICON_SIZES = [
   { size: "512x512", density: "playstore" },
 ];
 
-//
-// 2. MOTION COMPONENTS
-//
+
 const MotionBox = motion(Box);
 const MotionHeading = motion(Heading);
 
@@ -74,9 +69,7 @@ function App() {
   const [platform, setPlatform] = useState("ios");
   const toast = useToast();
 
-  //
-  // 2.1. Handle user image upload
-  //
+ 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -86,9 +79,6 @@ function App() {
     reader.readAsDataURL(file);
   };
 
-  //
-  // 2.2. Generate icons (using Canvas)
-  //
   const generateIcons = async () => {
     if (!image) {
       toast({
@@ -139,9 +129,7 @@ function App() {
     });
   };
 
-  //
-  // 2.3. Download icons
-  //
+ 
   const downloadIcons = () => {
     if (generatedIcons.length === 0) {
       toast({
@@ -175,15 +163,11 @@ function App() {
     });
   };
 
-  //
-  // 3. RENDER
-  //
   return (
     <MotionBox
-      // Subtle animated gradient background
       bgGradient="linear(to-r, gray.900 0%, gray.800 50%, gray.900 100%)"
       animate={{
-        backgroundPosition: ["0% 0%", "200% 0%"], // animate gradient
+        backgroundPosition: ["0% 0%", "200% 0%"], 
       }}
       transition={{
         duration: 10,
@@ -200,7 +184,6 @@ function App() {
           <MotionHeading
             as="h1"
             textAlign="center"
-            // Neon text gradient
             bgGradient="linear(to-r, cyan.400, pink.400)"
             bgClip="text"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -243,7 +226,6 @@ function App() {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                // Subtle hover glow
                 whileHover={{ scale: 1.05 }}
               >
                 <Image
@@ -256,7 +238,6 @@ function App() {
               </MotionBox>
             )}
 
-            {/* Platform Selection */}
             <Text fontWeight="bold" mt={4}>
               Select a platform:
             </Text>
