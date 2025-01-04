@@ -1,5 +1,4 @@
-// If you're using Next.js 13+ with app router, ensure the component is client-side:
-// "use client"
+// "use client"  // If you're using Next.js 13+ with the app router
 
 import React, { useState } from "react";
 import {
@@ -18,6 +17,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
@@ -63,12 +63,15 @@ const ICON_SIZES = [
 ];
 
 //
-// 2. COMPONENT
+// 2. MOTION COMPONENTS
 //
+const MotionBox = motion(Box);
+const MotionHeading = motion(Heading);
+
 function App() {
-  const [image, setImage] = useState(null);        // Data URL of uploaded image
+  const [image, setImage] = useState(null);
   const [generatedIcons, setGeneratedIcons] = useState([]);
-  const [platform, setPlatform] = useState("ios"); // "ios" or "android"
+  const [platform, setPlatform] = useState("ios");
   const toast = useToast();
 
   //
@@ -98,14 +101,13 @@ function App() {
       return;
     }
 
-    // Filter iOS or Android icons
     const filtered = ICON_SIZES.filter((icon) =>
       platform === "ios" ? icon.idiom : icon.density
     );
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    const generated = [];
+    const results = [];
 
     for (const icon of filtered) {
       const [width, height] = icon.size.split("x").map(Number);
@@ -113,22 +115,21 @@ function App() {
       canvas.width = width;
       canvas.height = height;
 
-      // Instead of `new Image()`, use `document.createElement("img")`
       const img = document.createElement("img");
-      img.src = image; // Our base64 data URL
+      img.src = image;
 
       await new Promise((resolve) => {
         img.onload = () => {
           ctx.clearRect(0, 0, width, height);
           ctx.drawImage(img, 0, 0, width, height);
           const dataUrl = canvas.toDataURL("image/png");
-          generated.push({ ...icon, dataUrl });
+          results.push({ ...icon, dataUrl });
           resolve();
         };
       });
     }
 
-    setGeneratedIcons(generated);
+    setGeneratedIcons(results);
     toast({
       title: "Icons generated",
       description: `Successfully generated ${platform} icons!`,
@@ -139,7 +140,7 @@ function App() {
   };
 
   //
-  // 2.3. Download icons (ZIP)
+  // 2.3. Download icons
   //
   const downloadIcons = () => {
     if (generatedIcons.length === 0) {
@@ -178,85 +179,159 @@ function App() {
   // 3. RENDER
   //
   return (
-    <Box minH="100vh" bg="gray.800" color="white" py={8}>
+    <MotionBox
+      // Subtle animated gradient background
+      bgGradient="linear(to-r, gray.900 0%, gray.800 50%, gray.900 100%)"
+      animate={{
+        backgroundPosition: ["0% 0%", "200% 0%"], // animate gradient
+      }}
+      transition={{
+        duration: 10,
+        repeat: Infinity,
+        repeatType: "reverse",
+      }}
+      minH="100vh"
+      color="white"
+      py={8}
+      px={4}
+    >
       <Container maxW="container.lg">
         <VStack spacing={8} align="stretch">
-          <Heading as="h1" textAlign="center">
+          <MotionHeading
+            as="h1"
+            textAlign="center"
+            // Neon text gradient
+            bgGradient="linear(to-r, cyan.400, pink.400)"
+            bgClip="text"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.2 }}
+            fontSize={["3xl", "4xl", "5xl"]}
+            textShadow="0 0 20px rgba(255, 0, 255, 0.7)"
+          >
             App Icon Generator
-          </Heading>
+          </MotionHeading>
 
-          <Box bg="gray.700" p={6} rounded="md">
+          <MotionBox
+            bg="whiteAlpha.100"
+            p={6}
+            rounded="md"
+            boxShadow="0 0 20px rgba(0, 255, 255, 0.1)"
+            border="1px solid"
+            borderColor="whiteAlpha.200"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            whileHover={{
+              boxShadow: "0 0 30px rgba(0, 255, 255, 0.3)",
+            }}
+          >
             <Text fontWeight="bold">Upload an image:</Text>
             <Input
               mt={2}
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
+              border="1px solid"
+              borderColor="whiteAlpha.300"
+              _hover={{ borderColor: "pink.300" }}
             />
 
-            {/* Preview the uploaded image */}
             {image && (
-              <Image
-                src={image}
-                alt="Uploaded"
-                maxW="200px"
-                mx="auto"
-                my={4}
-                border="1px solid white"
-              />
+              <MotionBox
+                mt={4}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                // Subtle hover glow
+                whileHover={{ scale: 1.05 }}
+              >
+                <Image
+                  src={image}
+                  alt="Uploaded"
+                  maxW="200px"
+                  border="1px solid white"
+                  borderRadius="md"
+                />
+              </MotionBox>
             )}
 
-            {/* Platform selection */}
-            <Text fontWeight="bold">Select a platform:</Text>
+            {/* Platform Selection */}
+            <Text fontWeight="bold" mt={4}>
+              Select a platform:
+            </Text>
             <RadioGroup onChange={setPlatform} value={platform} mt={2}>
-              <Stack direction="row">
+              <Stack direction="row" spacing={6}>
                 <Radio value="ios">iOS</Radio>
                 <Radio value="android">Android</Radio>
               </Stack>
             </RadioGroup>
 
-            {/* Action buttons */}
             <Stack direction="row" spacing={4} mt={6}>
-              <Button colorScheme="teal" onClick={generateIcons}>
+              <Button
+                onClick={generateIcons}
+                bgGradient="linear(to-r, teal.400, green.400)"
+                _hover={{ bgGradient: "linear(to-r, teal.300, green.300)" }}
+                color="white"
+                boxShadow="0 0 10px rgba(0,255,0,0.3)"
+              >
                 Generate Icons
               </Button>
-              <Button variant="outline" onClick={downloadIcons}>
+              <Button
+                variant="outline"
+                colorScheme="pink"
+                onClick={downloadIcons}
+                _hover={{
+                  boxShadow: "0 0 15px rgba(255,0,255,0.5)",
+                }}
+              >
                 Download Icons
               </Button>
             </Stack>
-          </Box>
+          </MotionBox>
 
-          {/* Icons Preview */}
           {generatedIcons.length > 0 && (
-            <Box bg="gray.700" p={6} rounded="md">
+            <MotionBox
+              bg="whiteAlpha.100"
+              p={6}
+              rounded="md"
+              boxShadow="0 0 20px rgba(255, 0, 255, 0.1)"
+              border="1px solid"
+              borderColor="whiteAlpha.200"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               <Text fontWeight="bold" mb={4}>
                 Preview
               </Text>
-              <Grid
-                templateColumns="repeat(auto-fill, minmax(80px, 1fr))"
-                gap={4}
-              >
+              <Grid templateColumns="repeat(auto-fill, minmax(80px, 1fr))" gap={4}>
                 {generatedIcons.map((icon, i) => (
-                  <GridItem key={i} textAlign="center">
+                  <MotionBox
+                    key={i}
+                    textAlign="center"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     <Image
                       src={icon.dataUrl}
                       alt={icon.size}
                       mx="auto"
                       border="1px solid white"
+                      borderRadius="md"
                     />
                     <Text mt={2} fontSize="sm">
                       {platform === "ios"
                         ? `${icon.size}@${icon.scale || "1x"}`
                         : icon.density}
                     </Text>
-                  </GridItem>
+                  </MotionBox>
                 ))}
               </Grid>
-            </Box>
+            </MotionBox>
           )}
         </VStack>
       </Container>
-    </Box>
+    </MotionBox>
   );
 }
 
