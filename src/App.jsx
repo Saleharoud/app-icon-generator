@@ -22,32 +22,23 @@ import { saveAs } from "file-saver";
 
 
 const ICON_SIZES = [
-  // ------------------ iOS sizes ------------------
-  { size: "20x20", idiom: "iphone", scale: "2x" },
-  { size: "20x20", idiom: "iphone", scale: "3x" },
-  { size: "29x29", idiom: "iphone", scale: "1x" },
-  { size: "29x29", idiom: "iphone", scale: "2x" },
-  { size: "29x29", idiom: "iphone", scale: "3x" },
-  { size: "40x40", idiom: "iphone", scale: "2x" },
-  { size: "40x40", idiom: "iphone", scale: "3x" },
-  { size: "60x60", idiom: "iphone", scale: "2x" },
-  { size: "60x60", idiom: "iphone", scale: "3x" },
-  { size: "20x20", idiom: "ipad", scale: "1x" },
-  { size: "20x20", idiom: "ipad", scale: "2x" },
-  { size: "29x29", idiom: "ipad", scale: "1x" },
-  { size: "29x29", idiom: "ipad", scale: "2x" },
-  { size: "40x40", idiom: "ipad", scale: "1x" },
-  { size: "40x40", idiom: "ipad", scale: "2x" },
-  { size: "76x76", idiom: "ipad", scale: "1x" },
-  { size: "76x76", idiom: "ipad", scale: "2x" },
-  { size: "83.5x83.5", idiom: "ipad", scale: "2x" },
-  { size: "1024x1024", idiom: "ios-marketing", scale: "1x" },
-  { size: "50x50", idiom: "iphone", scale: "1x" },
-  { size: "50x50", idiom: "iphone", scale: "2x" },
-  { size: "57x57", idiom: "iphone", scale: "1x" },
-  { size: "57x57", idiom: "iphone", scale: "2x" },
-  { size: "72x72", idiom: "iphone", scale: "1x" },
-  { size: "72x72", idiom: "iphone", scale: "2x" },
+  // ------------------ iOS sizes (New) ------------------
+  { size: "40x40", idiom: "universal", scale: "2x" },    // 20pt
+  { size: "60x60", idiom: "universal", scale: "3x" },    // 20pt
+  { size: "58x58", idiom: "universal", scale: "2x" },    // 29pt
+  { size: "87x87", idiom: "universal", scale: "3x" },    // 29pt
+  { size: "76x76", idiom: "universal", scale: "2x" },    // 38pt
+  { size: "114x114", idiom: "universal", scale: "3x" },   // 38pt
+  { size: "80x80", idiom: "universal", scale: "2x" },    // 40pt
+  { size: "120x120", idiom: "universal", scale: "3x" },   // 40pt
+  { size: "120x120", idiom: "universal", scale: "2x" },   // 60pt
+  { size: "180x180", idiom: "universal", scale: "3x" },   // 60pt
+  { size: "128x128", idiom: "universal", scale: "2x" },   // 64pt
+  { size: "192x192", idiom: "universal", scale: "3x" },   // 64pt
+  { size: "136x136", idiom: "universal", scale: "2x" },   // 68pt
+  { size: "152x152", idiom: "universal", scale: "2x" },   // 76pt
+  { size: "167x167", idiom: "universal", scale: "2x" },   // 83.5pt
+  { size: "1024x1024", idiom: "ios-marketing", scale: "1x" }, // App Store
 
   // ------------------ Android sizes ------------------
   { size: "36x36", density: "ldpi" },
