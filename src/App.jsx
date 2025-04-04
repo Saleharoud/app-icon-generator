@@ -289,7 +289,6 @@ function App() {
                       alt={icon.size}
                       mx="auto"
                       border="1px solid white"
-                      borderRadius="md"
                     />
                     <Text mt={2} fontSize="sm">
                       {platform === "ios"
